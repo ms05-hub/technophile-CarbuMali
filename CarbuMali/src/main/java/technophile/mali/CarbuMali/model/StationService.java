@@ -19,7 +19,7 @@ public class StationService extends Utilisateur {
 
 
     public StationService(String nom, String prenom, String email, String motDePasse, String localisation,
-                          String nomStation, String adresse, Double latitude, Double longitude) {
+                          String nomStation, String adresse, Double latitude, Double longitude, Role role) {
         super(nom, prenom, email, motDePasse, localisation, Role.STATION);
         this.nomStation = nomStation;
         this.adresse = adresse;
@@ -27,6 +27,7 @@ public class StationService extends Utilisateur {
         this.longitude = longitude;
         this.statutEssence = StatutCarburant.DISPONIBLE;
         this.statutGasoil = StatutCarburant.DISPONIBLE;
+        this.role = role;
     }
     @Enumerated(EnumType.STRING)
     private StatutCarburant statutEssence;

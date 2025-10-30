@@ -11,17 +11,16 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SecurityConfig {
 
     @Bean
-
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .csrf(csrf -> csrf.disable()) // ⚠️ pour tester en local
+                .csrf(csrf -> csrf.disable()) // 🔸 désactive CSRF
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/auth/**", "/api/utilisateurs/ajouter").permitAll()
-                        .anyRequest().authenticated()
+                        .anyRequest().permitAll() // 🔓 autorise toutes les requêtes
                 );
         return http.build();
     }
 
+    // 🔑 Ajoute ce bean pour résoudre l'erreur "No qualifying bean of type PasswordEncoder"
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
