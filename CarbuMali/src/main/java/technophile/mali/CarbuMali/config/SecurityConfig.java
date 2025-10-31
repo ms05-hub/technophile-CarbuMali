@@ -14,7 +14,7 @@ public class SecurityConfig {
 
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .csrf(csrf -> csrf.disable()) // ⚠️ pour tester en local
+                .csrf(csrf -> csrf.disable()) //  pour tester en local
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/auth/**", "/api/utilisateurs/ajouter").permitAll()
                         .anyRequest().authenticated()
