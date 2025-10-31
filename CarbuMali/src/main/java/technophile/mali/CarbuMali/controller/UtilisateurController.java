@@ -8,6 +8,8 @@ import technophile.mali.CarbuMali.model.Administrateur;
 import technophile.mali.CarbuMali.model.Conducteur;
 import technophile.mali.CarbuMali.model.StationService;
 import technophile.mali.CarbuMali.model.Utilisateur;
+import technophile.mali.CarbuMali.service.ConducteurService;
+import technophile.mali.CarbuMali.service.StationServiceService;
 import technophile.mali.CarbuMali.service.UtilisateurService;
 
 import java.util.List;
@@ -19,23 +21,31 @@ import java.util.Optional;
 public class UtilisateurController {
     private final PasswordEncoder passwordEncoder;
     private final UtilisateurService utilisateurService;
+    private final StationServiceService stationService;
+    private final ConducteurService conducteurService;
 
-    public UtilisateurController(PasswordEncoder passwordEncoder, UtilisateurService utilisateurService) {
+    public UtilisateurController(PasswordEncoder passwordEncoder, UtilisateurService utilisateurService, StationServiceService stationServiceService, ConducteurService conducteurService) {
         this.passwordEncoder = passwordEncoder;
         this.utilisateurService = utilisateurService;
+        this.stationService = stationServiceService;
+        this.conducteurService = conducteurService;
     }
 
     // ✅ Ajouter un utilisateur (Conducteur / Station / Admin)
     @PostMapping("/ajouter")
     public ResponseEntity<?> creerUtilisateur(@RequestBody UtilisateurDTO dto) {
         String hashedPassword = passwordEncoder.encode(dto.getMotDePasse());
-        Utilisateur utilisateur;
+        Utilisateur utilisateur= null ;
+        //StationService station= null;
         switch(dto.getRole()) {
             case CONDUCTEUR:
-                utilisateur = new Conducteur(dto.getNom(), dto.getPrenom(), dto.getEmail(), hashedPassword, dto.getLocalisation());
+                Conducteur conducteur= new Conducteur(dto.getNom(), dto.getPrenom(), dto.getEmail(), hashedPassword, dto.getLocalisation(), dto.getRole());
+                //utilisateurService.creerUtilisateur(utilisateur);
+                conducteurService.creerConduteur(conducteur);
+                utilisateur = conducteur;
                 break;
             case STATION:
-                utilisateur = new StationService(
+                StationService station = new StationService(
                         dto.getNom(),
                         dto.getPrenom(),
                         dto.getEmail(),
@@ -44,16 +54,23 @@ public class UtilisateurController {
                         dto.getNomStation(),
                         dto.getAdresse(),
                         dto.getLatitude(),
-                        dto.getLongitude()
+                        dto.getLongitude(),
+                        dto.getRole()
                 );
+                stationService.creerStation(station);
+                utilisateur = station; // si ta classe StationService hérite de Utilisateur
                 break;
+
             case ADMIN:
                 utilisateur = new Administrateur(dto.getNom(), dto.getPrenom(), dto.getEmail(), hashedPassword, dto.getLocalisation());
+                utilisateurService.creerUtilisateur(utilisateur);
                 break;
             default:
                 return ResponseEntity.badRequest().body("Rôle inconnu");
         }
         utilisateurService.creerUtilisateur(utilisateur);
+        //stationService.creerStation(station);
+
         return ResponseEntity.ok(utilisateur);
     }
     // ✅ Récupérer tous les utilisateurs

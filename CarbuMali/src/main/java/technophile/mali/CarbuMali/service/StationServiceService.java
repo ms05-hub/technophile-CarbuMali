@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import technophile.mali.CarbuMali.exeception.StationNotFoundException;
 import technophile.mali.CarbuMali.model.StationService;
 import technophile.mali.CarbuMali.model.StatutCarburant;
+import technophile.mali.CarbuMali.model.Utilisateur;
 import technophile.mali.CarbuMali.repository.StationRepository;
 
 
@@ -22,6 +23,9 @@ public class StationServiceService {
     // Récupérer toutes les stations
     public List<StationService> getToutesLesStations() {
         return stationRepository.findAll();
+    }
+    public StationService creerStation(StationService stationService) {
+        return stationRepository.save(stationService);
     }
 
     // Récupérer les stations disponibles
