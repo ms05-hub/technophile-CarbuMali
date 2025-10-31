@@ -50,4 +50,14 @@ public class StationServiceController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
+
+    @GetMapping("/stations-proches")
+    public ResponseEntity<List<StationService>> getStationsProches(
+            @RequestParam Double lat,
+            @RequestParam Double lon,
+            @RequestParam Double rayon) {
+
+        List<StationService> result = stationServiceService.getStationsProches(lat, lon, rayon);
+        return ResponseEntity.ok(result);
+    }
 }
