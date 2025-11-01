@@ -1,46 +1,39 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
-import Search from './pages/search/Search'
-import Alert from './pages/alert/Alert'
-import Map from './pages/map/Map'
-import Test from './pages/Test'
-import Sign_in from './pages/connexion/sing-in/sing_in'
-import Sign_up from './pages/connexion/sign-up/Sign_up'
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import Search from './pages/search/Search';
+import Alert from './pages/alert/Alert';
+import Map from './pages/map/Map';
+import Test from './pages/Test';
+import Sign_in from './pages/connexion/sing-in/sing_in';
+import Sign_up from './pages/connexion/sign-up/Sign_up';
+import Inscription_map from './pages/map/Inscription_map';
 
-import './Globals.css'
+import { FormProvider } from "./pages/connexion/context/FormContext";
 
-import NavBar from './pages/navbar/NavBar'
-import Connection_header from './pages/connexion/Connection_header'
+import './Globals.css';
 
-
-
-//import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
-//import L from "leaflet";
-//import markerIcon2x from "leaflet/dist/images/marker-icon-2x.png";
-//import markerIcon from "leaflet/dist/images/marker-icon.png";
-//import markerShadow from "leaflet/dist/images/marker-shadow.png";
-
-
-
+import NavBar from './pages/navbar/NavBar';
+import Connection_header from './pages/connexion/Connection_header';
 
 function App() {
   return (
     <BrowserRouter>
-    
-      
+      {/* FormProvider enveloppe toute l'application pour partager formData */}
+      <FormProvider>
+        {/* La navbar est toujours affichée */}
+        <NavBar />
 
-      {/* La navbar est toujours affichée */}
-      <NavBar />
-
-      <Routes>
-        <Route path="/" element={<Search />} />
-        <Route path="/alerte" element={<Alert />} />
-        <Route path="/map" element={<Map />} />
-        <Route path="/test" element={<Test />} />
-        <Route path="/inscription" element={<Sign_in />} />
-        <Route path="/connection" element={<Sign_up />} />
-      </Routes>
+        <Routes>
+          <Route path="/" element={<Search />} />
+          <Route path="/alerte" element={<Alert />} />
+          <Route path="/map" element={<Map />} />
+          <Route path="/test" element={<Test />} />
+          <Route path="/inscription" element={<Sign_in />} />
+          <Route path="/connection" element={<Sign_up />} />
+          <Route path="/inscription/map" element={<Inscription_map />} />
+        </Routes>
+      </FormProvider>
     </BrowserRouter>
-  )
+  );
 }
 
-export default App
+export default App;
