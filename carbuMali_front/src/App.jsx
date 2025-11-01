@@ -4,11 +4,13 @@ import Alert from './pages/alert/Alert'
 import Map from './pages/map/Map'
 import Test from './pages/Test'
 import Sign_in from './pages/connexion/sing-in/sing_in'
+import Sign_up from './pages/connexion/sign-up/Sign_up'
 
 import './Globals.css'
 
 import NavBar from './pages/navbar/NavBar'
 import Connection_header from './pages/connexion/Connection_header'
+
 
 
 //import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
@@ -34,7 +36,8 @@ function App() {
         <Route path="/alerte" element={<Alert />} />
         <Route path="/map" element={<Map />} />
         <Route path="/test" element={<Test />} />
-        <Route path="/connection" element={<Sign_in />} />
+        <Route path="/inscription" element={<Sign_in />} />
+        <Route path="/connection" element={<Sign_up />} />
       </Routes>
     </BrowserRouter>
   )

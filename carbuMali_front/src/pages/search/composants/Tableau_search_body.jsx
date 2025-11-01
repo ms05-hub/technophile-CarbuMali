@@ -1,22 +1,30 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Popup_Tableau_Search from './Popup_Tableau_Search';
-import Tableau_search from './Tableau_search';
+import AvatarBlack from '/src/assets/Avatar_black.png'
 
-function Tableau_search_body (){
-    const [isPopupOpen, setIsPopupOpen] = useState(false);
-    return(
+function Tableau_search_body({ station, isPopupOpen, onOpen, onClose }) {
+    return (
         <>
-            <div className='sm: flex justify-center items-center w-full max-w-[373px] max-h-[54px] gap-x-5 text-sm bg-[#2AB7CA] rounded-[25px] p-4 cursor-pointer' onClick={() => setIsPopupOpen(true)} >
-                <div className='w-[41px] h-[41px] rounded-full bg-red-900 overflow-hidden'>
-                    <img src="" alt="" className="w-full h-full object-cover" />
+            <div
+                className="sm: flex justify-center items-center w-full max-w-[373px] max-h-[54px] gap-x-5 text-sm bg-[#2AB7CA] rounded-[25px] p-4 cursor-pointer"
+                onClick={onOpen}
+            >
+                <div className="sm: flex items-center justify-center -[41px] h-[41px] rounded-full bg-[#E6E6EA] overflow-hidden">
+                    <img src={AvatarBlack} alt="" className="w-full h-full object-cover" />
                 </div>
-                <h1>Station Jhon Doe</h1>
-                <h1>600m</h1>
-                <div className='bg-[#5CDA0E] w-[30px] h-[30px] rounded-full'></div>
-            </div>  
-            {isPopupOpen && (<Popup_Tableau_Search onClose={() => setIsPopupOpen(false)} />)}
+                <h1>{station.nomStation}</h1>
+                <h1>{station.distance}m</h1>
+                <div
+                    className={`sm: w-[30px] h-[30px] rounded-full ${
+                        station.status === "OK" ? "bg-[#5CDA0E]" : "bg-red-500"
+                    }`}
+                ></div>
+            </div>
+
+            {/* Popup spécifique à ce tableau */}
+            {isPopupOpen && <Popup_Tableau_Search station={station} onClose={onClose} />}
         </>
-        
-    )
-}   
-export default Tableau_search_body
+    );
+}
+
+export default Tableau_search_body;
