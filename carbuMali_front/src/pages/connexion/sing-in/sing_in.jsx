@@ -34,6 +34,10 @@ function Sign_in() {
     if (!isFormFilled) return alert("Veuillez remplir tous les champs !");
 
     try {
+      /*let localisation;
+      if (formData.role === "STATION") {
+            localisation = JSON.stringify(formData.stationPosition)
+      }*/
       const response = await axios.post(
         "http://localhost:8080/api/utilisateurs/ajouter",
         {
@@ -42,10 +46,15 @@ function Sign_in() {
           email: formData.email,
           motDePasse: formData.motDePasse,
           role: formData.role || "CONDUCTEUR",
-          localisation:
-            formData.role === "STATION"
-              ? JSON.stringify(formData.stationPosition || formData.stationAdresse)
-              : "Bamako",
+          
+          nomStation: formData.nomStation,
+          adresse: formData.adresse,
+          latitude: formData.stationPosition.lat,
+          longitude: formData.stationPosition.lng,
+
+          
+
+
         }
       );
 
@@ -112,25 +121,25 @@ function Sign_in() {
 
           {/* Champs station */}
           {formData.role === "STATION" && (
-            <div className="flex items-center justify-center flex-col gap-y-2 mt-2">
+            <div className="flex items-center justify-center flex-col gap-y-5 mt-2">
               <input
                 placeholder="Nom de la station"
-                value={formData.stationNom || ""}
-                onChange={(e) => setFormData({ ...formData, stationNom: e.target.value })}
+                value={formData.nomStation || ""}
+                onChange={(e) => setFormData({ ...formData, nomStation: e.target.value })}
                 className="w-[255px] h-[45px] rounded-2xl px-2 outline-none bg-[#E6E6EA]"
               />
               <input
                 placeholder="Adresse"
-                value={formData.stationAdresse || ""}
+                value={formData.adresse || ""}
                 onChange={(e) =>
-                  setFormData({ ...formData, stationAdresse: e.target.value })
+                  setFormData({ ...formData, adresse: e.target.value })
                 }
                 className="w-[255px] h-[45px] rounded-2xl px-2 outline-none bg-[#E6E6EA]"
               />
               <button
                 type="button"
                 onClick={handleOpenMap}
-                className="bg-[#2AB7CA] text-white rounded px-4 py-2 mt-1 rounded-2xl"
+                className=" w-[255px] h-[45px] text-white rounded px-4 py-2 mt-1 rounded-2xl bg-[#2AB7CA]"
               >
                 position de la station📍
               </button>
@@ -144,7 +153,7 @@ function Sign_in() {
             </div>
           )}
 
-          <button type="submit" className="bg-blue-600 text-white px-6 py-3 rounded mt-4">
+          <button type="submit" className=" text-white px-6 py-3 rounded-2xl mt-4 bg-[#2AB7CA]">
             S'inscrire
           </button>
         </form>
