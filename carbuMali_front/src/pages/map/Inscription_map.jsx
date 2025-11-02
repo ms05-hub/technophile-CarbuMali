@@ -4,6 +4,8 @@ import { useNavigate } from "react-router-dom";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 
+import useUserPosition from "./UserPosition";
+
 import markerIcon2x from "leaflet/dist/images/marker-icon-2x.png";
 import markerIcon from "leaflet/dist/images/marker-icon.png";
 import markerShadow from "leaflet/dist/images/marker-shadow.png";
@@ -19,6 +21,7 @@ L.Icon.Default.mergeOptions({
 function LocationSelector() {
   const navigate = useNavigate();
   const [selected, setSelected] = useState(null);
+
 
   // Quand l'utilisateur clique sur la carte
   useMapEvents({
@@ -40,10 +43,21 @@ function LocationSelector() {
 }
 
 export default function Inscription_map() {
+
+  const { userPosition, geoError } = useUserPosition();
+
+    if (geoError) {
+      return <p className="text-red-600">{geoError}</p>;
+    }
+
+    if (!userPosition) {
+      return <p>📡 Recherche de votre position...</p>;
+    }
+
   return (
     <div className="h-screen w-screen relative">
       <MapContainer
-        center={[14.6937, -17.4441]} // centre initial (Dakar ici)
+        center={[userPosition.lat, userPosition.lng]}
         zoom={13}
         className="h-full w-full"
       >

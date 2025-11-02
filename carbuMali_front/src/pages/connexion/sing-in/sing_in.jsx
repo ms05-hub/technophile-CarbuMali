@@ -28,43 +28,51 @@ function Sign_in() {
     navigate("/inscription/map");
   };
 
+
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log("🔍 Données envoyées :", formData);
+
     if (!isFormFilled) return alert("Veuillez remplir tous les champs !");
 
     try {
-      /*let localisation;
+      // On construit d’abord la base de l’objet utilisateur
+      const userData = {
+        nom: formData.nom,
+        prenom: formData.prenom,
+        email: formData.email,
+        motDePasse: formData.motDePasse,
+        role: formData.role || "CONDUCTEUR",
+      };
+
+      // Si le rôle est STATION, on ajoute les infos station
       if (formData.role === "STATION") {
-            localisation = JSON.stringify(formData.stationPosition)
-      }*/
+        if (!formData.stationPosition)
+          return alert("Veuillez choisir la position de la station 📍");
+
+        userData.nomStation = formData.nomStation;
+        userData.adresse = formData.adresse;
+        userData.latitude = formData.stationPosition.lat;
+        userData.longitude = formData.stationPosition.lng;
+      }
+
       const response = await axios.post(
         "http://localhost:8080/api/utilisateurs/ajouter",
-        {
-          nom: formData.nom,
-          prenom: formData.prenom,
-          email: formData.email,
-          motDePasse: formData.motDePasse,
-          role: formData.role || "CONDUCTEUR",
-          
-          nomStation: formData.nomStation,
-          adresse: formData.adresse,
-          latitude: formData.stationPosition.lat,
-          longitude: formData.stationPosition.lng,
-
-          
-
-
-        }
+        userData
       );
 
-      alert("Inscription réussie !");
+      alert("✅ Inscription réussie !");
       console.log(response.data);
     } catch (err) {
       console.error(err);
-      alert("Erreur lors de l'inscription : " + (err.response?.data || err.message));
+      alert("❌ Erreur lors de l'inscription : " + (err.response?.data || err.message));
     }
   };
+
+
+
+
 
   return (
     <div className="flex-1 sm:flex justify-center items-center overflow-y-auto py-4 h-screen">
