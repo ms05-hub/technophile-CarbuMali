@@ -30,6 +30,7 @@ function Sign_in() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log("🔍 Données envoyées :", formData);
     if (!isFormFilled) return alert("Veuillez remplir tous les champs !");
 
     try {
@@ -64,6 +65,7 @@ function Sign_in() {
         <form
           onSubmit={handleSubmit}
           className="flex flex-col items-center justify-center gap-y-6"
+          method="post"
         >
           <input
             placeholder="Nom"
@@ -99,7 +101,7 @@ function Sign_in() {
                 type="button"
                 key={role}
                 onClick={() => setFormData({ ...formData, role })}
-                className={`px-4 py-1 rounded-2xl ${
+                className={`px-4 py-1 rounded-2xl w-35 h-8 ${
                   formData.role === role ? "bg-[#2AB7CA] text-white" : "bg-[#F4F4F8]"
                 }`}
               >
@@ -110,7 +112,7 @@ function Sign_in() {
 
           {/* Champs station */}
           {formData.role === "STATION" && (
-            <div className="flex flex-col gap-y-2 mt-2">
+            <div className="flex items-center justify-center flex-col gap-y-2 mt-2">
               <input
                 placeholder="Nom de la station"
                 value={formData.stationNom || ""}
@@ -128,9 +130,9 @@ function Sign_in() {
               <button
                 type="button"
                 onClick={handleOpenMap}
-                className="bg-[#2AB7CA] text-white rounded px-4 py-2 mt-1"
+                className="bg-[#2AB7CA] text-white rounded px-4 py-2 mt-1 rounded-2xl"
               >
-                Choisir position 📍
+                position de la station📍
               </button>
 
               {formData.stationPosition && (
