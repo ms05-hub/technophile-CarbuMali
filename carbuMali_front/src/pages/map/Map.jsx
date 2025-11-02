@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+
+import useUserPosition from "./UserPosition";
+
+
 import L from "leaflet";
-
 import "leaflet/dist/leaflet.css"; // très important pour afficher correctement la carte
-
 import markerIcon2x from "leaflet/dist/images/marker-icon-2x.png";
 import markerIcon from "leaflet/dist/images/marker-icon.png";
 import markerShadow from "leaflet/dist/images/marker-shadow.png";
@@ -16,46 +18,21 @@ L.Icon.Default.mergeOptions({
   shadowUrl: markerShadow,
 });
 
-export default function App() {
-  const [userPosition, setUserPosition] = useState(null);
-  const [geoError, setGeoError] = useState(null);
 
-  useEffect(() => {
-    if (!navigator.geolocation) {
-      setGeoError("La géolocalisation n'est pas prise en charge par votre navigateur.");
-      return;
-    }
 
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
-        setUserPosition({
-          lat: position.coords.latitude,
-          lng: position.coords.longitude,
-        });
-      },
-      (error) => {
-        console.error("Erreur de géolocalisation :", error);
-        setGeoError("Impossible d'obtenir votre position.");
-      }
-    );
-  }, []);
+export default function Map() {
+  
 
-  // 🕓 Si la position n'est pas encore obtenue
-  if (!userPosition && !geoError) {
-    return (
-      <div className="sm: h-screen w-screen flex justify-center items-center">
-        <p>📡 Recherche de votre position en cours...</p>
-      </div>
-    );
+
+
+  const { userPosition, geoError } = useUserPosition();
+
+  if (geoError) {
+    return <p className="text-red-600">{geoError}</p>;
   }
 
-  // ❌ Si la géolocalisation échoue
-  if (geoError) {
-    return (
-      <div className="sm: h-screen w-screen flex justify-center items-center text-red-600">
-        <p>{geoError}</p>
-      </div>
-    );
+  if (!userPosition) {
+    return <p>📡 Recherche de votre position...</p>;
   }
 
   // 🗺️ Quand la position est disponible
