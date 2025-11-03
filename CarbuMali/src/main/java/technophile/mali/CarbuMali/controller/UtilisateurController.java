@@ -31,12 +31,11 @@ public class UtilisateurController {
         this.conducteurService = conducteurService;
     }
 
-    // ✅ Ajouter un utilisateur (Conducteur / Station / Admin)
+
     @PostMapping("/ajouter")
     public ResponseEntity<?> creerUtilisateur(@RequestBody UtilisateurDTO dto) {
         String hashedPassword = passwordEncoder.encode(dto.getMotDePasse());
         Utilisateur utilisateur= null ;
-        //StationService station= null;
         switch(dto.getRole()) {
             case CONDUCTEUR:
                 Conducteur conducteur= new Conducteur(dto.getNom(), dto.getPrenom(), dto.getEmail(), hashedPassword, dto.getLocalisation(), dto.getRole());
@@ -73,7 +72,7 @@ public class UtilisateurController {
 
         return ResponseEntity.ok(utilisateur);
     }
-    // ✅ Récupérer tous les utilisateurs
+
     @GetMapping
     public ResponseEntity<List<Utilisateur>> getTousLesUtilisateurs() {
         List<Utilisateur> utilisateurs = utilisateurService.getTousLesUtilisateurs();
@@ -98,7 +97,7 @@ public class UtilisateurController {
 
      */
 
-    // ✅ Supprimer un utilisateur
+
     @DeleteMapping("/{id}")
     public ResponseEntity<?> supprimerUtilisateur(@PathVariable Long id) {
         utilisateurService.supprimerUtilisateur(id);
