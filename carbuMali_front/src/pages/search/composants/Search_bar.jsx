@@ -3,10 +3,18 @@ import '/src/Globals.css';
 import NavBar from '../../navbar/NavBar';
 import SearchBlack from '/src/assets/search_black.png';
 
+
+
+
+
 function Search_bar() {
     const [inputValue, setInputValue] = useState('');
     const [results, setResults] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
+
+    
+
+    
 
     useEffect(() => {
         // Si le champ est vide, on efface les résultats
@@ -23,10 +31,13 @@ function Search_bar() {
         return () => clearTimeout(timeout);
     }, [inputValue]);
 
+   
+    
+
     const fetchStations = async (query) => {
         setIsLoading(true);
         try {
-            const response = await fetch(`http://localhost:8080/api/stations?query=${encodeURIComponent(query)}`);
+            const response = await fetch(`http://localhost:8080/api/stations/stations-proches?lat=${userPosition.lat}&lon=${userPosition.lng}&rayon=1&query=${encodeURIComponent(query)}`);
             if (!response.ok) throw new Error('Erreur réseau');
             const data = await response.json();
             setResults(data);
@@ -36,6 +47,13 @@ function Search_bar() {
             setIsLoading(false);
         }
     };
+
+
+    //recupère la position de l'utilisateur
+    
+
+   
+   //
 
     return (
         <div className="sm: flex flex-col items-center">

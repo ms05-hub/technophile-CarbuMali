@@ -6,6 +6,7 @@ import Test from './pages/Test';
 import Sign_in from './pages/connexion/sing-in/sing_in';
 import Sign_up from './pages/connexion/sign-up/Sign_up';
 import Inscription_map from './pages/map/Inscription_map';
+import Compte from './pages/compte/Compte'
 
 import { FormProvider } from "./pages/connexion/context/FormContext";
 
@@ -30,6 +31,7 @@ function App() {
           <Route path="/inscription" element={<Sign_in />} />
           <Route path="/connection" element={<Sign_up />} />
           <Route path="/inscription/map" element={<Inscription_map />} />
+          <Route path="/compte" element={<Compte/>}/>
         </Routes>
       </FormProvider>
     </BrowserRouter>
