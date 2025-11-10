@@ -17,7 +17,7 @@ function Tableau_search() {
 
     try {
       const response = await fetch(
-        `http://localhost:8080/api/stations/stations-proches?lat=${userPosition.lat}&lon=${userPosition.lng}&rayon=5000&query=${encodeURIComponent(query)}`
+        `http://localhost:8080/api/stations/stations-proches?lat=${userPosition.lat}&lon=${userPosition.lng}&rayon=50000&query=${encodeURIComponent(query)}`
       );
 
       if (!response.ok) throw new Error("Erreur réseau");
@@ -39,7 +39,7 @@ function Tableau_search() {
   }, [userPosition]);
 
   if (geoError) {
-    return <p className="text-red-600">{geoError}</p>;
+    return <p className="flex items-center justify-center text-red-600">{geoError}</p>;
   }
 
   if (!userPosition) {
@@ -49,8 +49,8 @@ function Tableau_search() {
   return (
     <div className="sm: flex flex-col w-full h-screen bg-white">
       {/* 🧭 Header */}
-      <div className="sm: flex flex-row px-[25px] py-3 items-center gap-x-6 text-sm justify-between sticky top-0 bg-white z-10 border-b shadow-sm">
-        <div className="sm: w-[41px]"></div>
+      <div className="sm: flex flex-row gap-x-6 px-[5px]  py-3 items-center  text-sm justify-between sticky top-0 bg-white z-10 border-b shadow-sm">
+        
         <div className="sm: font-semibold">Nom</div>
         <div className="sm: font-semibold">Distance</div>
         <div className="sm: font-semibold">Status</div>

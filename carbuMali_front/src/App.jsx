@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Search from './pages/search/Search';
-import Alert from './pages/alert/Alert';
+import Alert from './pages/alert/NoAlert';
+import Alert_prod from './pages/alert/Alert'
 import Map from './pages/map/Map';
 import Test from './pages/Test';
 import Sign_in from './pages/connexion/sing-in/sing_in';
@@ -26,6 +27,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Search />} />
           <Route path="/alerte" element={<Alert />} />
+          <Route path="/alerte_prod" element={<Alert_prod />} />
           <Route path="/map" element={<Map />} />
           <Route path="/test" element={<Test />} />
           <Route path="/inscription" element={<Sign_in />} />
