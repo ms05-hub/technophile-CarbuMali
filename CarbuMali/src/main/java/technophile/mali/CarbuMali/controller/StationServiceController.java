@@ -2,7 +2,9 @@ package technophile.mali.CarbuMali.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import technophile.mali.CarbuMali.dto.StationAvecDistance;
 import technophile.mali.CarbuMali.model.StationService;
+import technophile.mali.CarbuMali.service.DistanceService;
 import technophile.mali.CarbuMali.service.StationServiceService;
 import technophile.mali.CarbuMali.exeception.StationNotFoundException;
 
@@ -14,10 +16,12 @@ import java.util.List;
 public class StationServiceController {
 
     private final StationServiceService stationServiceService;
+    private final DistanceService distanceService;
 
-
-    public StationServiceController(StationServiceService stationServiceService) {
+    public StationServiceController(StationServiceService stationServiceService,
+                                    DistanceService distanceService) {
         this.stationServiceService = stationServiceService;
+        this.distanceService = distanceService;
     }
 
     // ✅ Récupérer toutes les stations
@@ -51,13 +55,27 @@ public class StationServiceController {
         }
     }
 
+    // ✅ Récupérer les stations proches avec distance
     @GetMapping("/stations-proches")
-    public ResponseEntity<List<StationService>> getStationsProches(
+    public ResponseEntity<List<StationAvecDistance>> getStationsProches(
             @RequestParam Double lat,
             @RequestParam Double lon,
             @RequestParam Double rayon) {
 
-        List<StationService> result = stationServiceService.getStationsProches(lat, lon, rayon);
-        return ResponseEntity.ok(result);
+        List<StationService> stations = stationServiceService.getStationsProches(lat, lon, rayon);
+
+        List<StationAvecDistance> stationsAvecDistance = stations.stream()
+                .map(station -> {
+                    double distance = distanceService.calculateDistance(
+                            lat,
+                            lon,
+                            station.getLatitude(),
+                            station.getLongitude()
+                    );
+                    return new StationAvecDistance(station, distance);
+                })
+                .toList();
+
+        return ResponseEntity.ok(stationsAvecDistance);
     }
 }
