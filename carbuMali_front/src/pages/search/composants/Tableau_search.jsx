@@ -47,9 +47,9 @@ function Tableau_search() {
   }
 
   return (
-    <div className="sm: flex flex-col w-full h-screen bg-white">
+    <div className="sm: flex flex-col items-center justify-center w-full h-screen bg-white">
       {/* 🧭 Header */}
-      <div className="sm: flex flex-row gap-x-6 px-[5px]  py-3 items-center  text-sm justify-between sticky top-0 bg-white z-10 border-b shadow-sm">
+      <div className="sm: flex flex-row w-[400px] gap-x-6 px-[5px]  py-3 items-center  text-sm justify-between sticky top-0 bg-white z-10 border-b shadow-sm">
         
         <div className="sm: font-semibold">Nom</div>
         <div className="sm: font-semibold">Distance</div>
